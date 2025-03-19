@@ -13,5 +13,50 @@
   <a-entity id="Chien" obj-model="mtl: ./objet/dog/dog.mtl; obj: ./objet/dog/dog.obj" position="-1.182 0.183 1.23135" scale="-0.01 0.01 0.01" rotation="-0.09 54.58116 -0.02"></a-entity>
    <a-entity id="starwards" obj-model="mtl: ./objet/starwards/BB-8/BB-8.mtl; obj: ./objet/starwards/BB-8/BB-8.obj" position="-1.58365 0.32095 1.9447" scale="-0.01 0.01 0.01" rotation="-0.09 54.58116 -0.02"></a-entity>
 </a-scene>
+  body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        #clickable-object {
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        #video-container {
+            display: none; /* Vidéo cachée par défaut */
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- L'objet cliquable (ici une image) -->
+    <div id="clickable-object">
+        <img src="ton_image.png" alt="Cliquez pour voir la vidéo" style="width: 200px; cursor: pointer;">
+        <p>Cliquez sur l'image pour voir la vidéo !</p>
+    </div>
+
+    <!-- Section contenant la vidéo, cachée par défaut -->
+    <div id="video-container">
+        <!-- Vidéo YouTube intégrée dans un iframe -->
+        <iframe width="560" height="315" src="https://youtube.com/shorts/8BrhvQ56Bz8?feature=shared="0" allowfullscreen></iframe>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Sélectionne l'élément cliquable
+        const clickableObject = document.getElementById('clickable-object');
+
+        // Sélectionne la section où la vidéo sera affichée
+        const videoContainer = document.getElementById('video-container');
+
+        // Ajoute un écouteur d'événements pour le clic
+        clickableObject.addEventListener('click', function() {
+            // Affiche 
+            videoContainer.style.display = 'block';
+        });
+    </script>
 </body>
 </html>
