@@ -13,10 +13,9 @@
         <a-entity id="lapin" obj-model="mtl: ./objet/rabbit/rabbit.mtl; obj: ./objet/rabbit/rabbit.obj" position="-1.56655 0.30294 3.45654" scale="0.02 0.02 0.02" rotation="0 53.211 0"></a-entity>
         <a-entity id="chien" obj-model="mtl: ./objet/dog/dog.mtl; obj: ./objet/dog/dog.obj" position="-1.182 0.183 1.23135" scale="-0.01 0.01 0.01" rotation="-0.09 54.58 -0.02"></a-entity>
         <a-entity id="starwars" obj-model="mtl: ./objet/starwars/BB-8/BB-8.mtl; obj: ./objet/starwars/BB-8/BB-8.obj" position="-1.58365 0.32095 1.9447" scale="-0.01 0.01 0.01" rotation="-0.09 54.58 -0.02"></a-entity>
-        
+        <a-entity id="chien-clickable" geometry="primitive: sphere; radius: 0.3" position="-0.76027 0.72172 1.53769" material="opacity: 0; transparent: true" event-set__click="_event: click; _target: #video-container; visible: true" rotation="0.26 1.02 0.19" scale="1.33 0.82 1.06"></a-entity>
         <!-- Evento de clique no cachorro -->
-        <a-entity id="chien-clickable" geometry="primitive: sphere; radius: 0.3" position="-1.182 0.5 1.23135" material="transparent: true; opacity: 0" 
-            event-set__click="_event: click; _target: #video-container; visible: true"></a-entity>
+    
     </a-scene>
 
     <!-- Estilização -->
