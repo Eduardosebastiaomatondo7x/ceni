@@ -13,6 +13,7 @@
   <a-entity id="Chien" obj-model="mtl: ./objet/dog/dog.mtl; obj: ./objet/dog/dog.obj" position="-1.182 0.183 1.23135" scale="-0.01 0.01 0.01" rotation="-0.09 54.58116 -0.02"></a-entity>
    <a-entity id="starwards" obj-model="mtl: ./objet/starwards/BB-8/BB-8.mtl; obj: ./objet/starwards/BB-8/BB-8.obj" position="-1.58365 0.32095 1.9447" scale="-0.01 0.01 0.01" rotation="-0.09 54.58116 -0.02"></a-entity>
 </a-scene>
+ <style>
   body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -46,7 +47,7 @@
 
 <!-- Three.js et autres scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/loaders/GLTFLoader.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/loaders/OBJLoader.js"></script>
 
 <script>
     let scene, camera, renderer, model;
@@ -60,9 +61,9 @@
     document.body.appendChild(renderer.domElement);
 
     // Chargement du modèle 3D (remplace le chemin par le chemin de ton modèle)
-    let loader = new THREE.GLTFLoader();
-    loader.load(' id="Chien" obj-model="mtl: ./objet/dog/dog.mtl; obj: ./objet/dog/dog.obj" position="-1.182 0.183 1.23135" scale="-0.01 0.01 0.01" rotation="-0.09 54.58116 -0.02', function(gltf) {
-        model = gltf.scene;
+    let loader = new THREE.OBJLoader();
+    loader.load(' id="Chien" obj-model="mtl: ./objet/dog/dog.mtl; obj: ./objet/dog/dog.obj" position="-1.182 0.183 1.23135" scale="-0.01 0.01 0.01" rotation="-0.09 54.58116 -0.02', function(obj) {
+        model = obj.scene;
         scene.add(model);
         model.position.set(0, -1, 0); // Positionne le modèle dans la scène
     }, undefined, function(error) {
