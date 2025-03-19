@@ -1,39 +1,10 @@
-<html>
+<!DOCTYPE html>
+<html lang="fr">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Projet A-Frame</title>
     <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
-</head>
-
-<body>
-    <a-scene>
-        <a-box id="plafond" scale="8.2836 0.37675 28.58833" position="9.73204 2.70159 0.67321" rotation="0 90 0"></a-box>
-        <a-sky src="./plage.jpg"></a-sky>
-        
-        <!-- Objetos 3D -->
-        <a-entity id="salle" obj-model="obj: ./objet/313v3.obj; mtl: ./objet/313v3.mtl" position="-4.41574 -0.00048 -5.06616" scale="0.01 0.01 0.01"></a-entity>
-        <a-entity id="lapin" obj-model="mtl: ./objet/rabbit/rabbit.mtl; obj: ./objet/rabbit/rabbit.obj" position="-1.56655 0.30294 3.45654" scale="0.02 0.02 0.02" rotation="0 53.211 0"></a-entity>
-        <a-entity id="chien" obj-model="mtl: ./objet/dog/dog.mtl; obj: ./objet/dog/dog.obj" position="-1.182 0.183 1.23135" scale="-0.01 0.01 0.01" rotation="-0.09 54.58 -0.02"></a-entity>
-        <a-entity id="starwars" obj-model="mtl: ./objet/starwars/BB-8/BB-8.mtl; obj: ./objet/starwars/BB-8/BB-8.obj" position="-1.58365 0.32095 1.9447" scale="-0.01 0.01 0.01" rotation="-0.09 54.58 -0.02"></a-entity>
-         <a-entity id="chien-clickable" position="-1.182 1.5 1.23135">
-   <a-entity id="chien-clickable" position="-1.182 1.5 1.23135">
-    <!-- Cadre noir -->
-    <a-plane id="cadre-noir" width="1" height="0.5" color="black" position="0 0 0" material="shader: flat"></a-plane>
-    <!-- Texte CLIQUEZ ICI -->
-    <a-text value="CLIQUEZ ICI" align="center" color="white" position="0 0 0.01" width="2"></a-text>
-</a-entity>
-
-<!-- Conteneur vidéo (par défaut caché) -->
-<div id="video-container" style="display: none; position: absolute
-
-
-<!-- Conteneur vidéo (par défaut caché) -->
-<div id="video-container" style="display: none; position: absolute
-
-
-        <!-- Evento de clique no cachorro -->
-    
-    </a-scene>
-
-    <!-- Estilização -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -41,6 +12,7 @@
             overflow: hidden;
         }
 
+        /* Conteneur vidéo caché au début */
         #video-container {
             display: none;
             position: absolute;
@@ -48,6 +20,9 @@
             left: 50%;
             transform: translateX(-50%);
             z-index: 10;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
         }
 
         iframe {
@@ -55,15 +30,45 @@
             height: 315px;
         }
     </style>
+</head>
+<body>
 
-    <!-- Contêiner para exibir o vídeo -->
+    <a-scene>
+        <a-sky src="./plage.jpg"></a-sky>
+
+        <!-- Plafond -->
+        <a-box id="plafond" scale="8.2836 0.37675 28.58833" position="9.73204 2.70159 0.67321" rotation="0 90 0"></a-box>
+
+        <!-- Salle -->
+        <a-entity id="salle" obj-model="obj: ./objet/313v3.obj; mtl: ./objet/313v3.mtl" position="-4.41574 -0.00048 -5.06616" scale="0.01 0.01 0.01"></a-entity>
+
+        <!-- Lapin -->
+        <a-entity id="lapin" obj-model="obj: ./objet/rabbit/rabbit.obj; mtl: ./objet/rabbit/rabbit.mtl" 
+                  position="-1.56655 0.30294 3.45654" scale="0.02 0.02 0.02" rotation="0 53.21116339159469 0"></a-entity>
+
+        <!-- Chien -->
+        <a-entity id="chien" obj-model="obj: ./objet/dog/dog.obj; mtl: ./objet/dog/dog.mtl" 
+                  position="-1.182 0.183 1.23135" scale="-0.01 0.01 0.01" rotation="-0.09 54.58116 -0.02"></a-entity>
+
+        <!-- BB-8 -->
+        <a-entity id="starwars" obj-model="obj: ./objet/starwards/BB-8/BB-8.obj; mtl: ./objet/starwards/BB-8/BB-8.mtl" 
+                  position="-1.58365 0.32095 1.9447" scale="-0.01 0.01 0.01" rotation="-0.09 54.58116 -0.02"></a-entity>
+
+        <!-- Cadre noir interactif -->
+        <a-entity id="cadre-clickable" position="0 1.5 -3">
+            <a-plane id="cadre-noir" width="1" height="0.5" color="black" material="shader: flat"></a-plane>
+            <a-text value="CLIQUEZ ICI" align="center" color="white" position="0 0 0.01" width="1.5"></a-text>
+        </a-entity>
+    </a-scene>
+
+    <!-- Conteneur vidéo (par défaut caché) -->
     <div id="video-container">
         <iframe id="video" src="https://www.youtube.com/embed/xuP4g7IDgDM" allowfullscreen></iframe>
     </div>
 
-    <!-- Script para ativar o vídeo ao clicar no cachorro -->
     <script>
-        document.getElementById("chien-clickable").addEventListener("click", function() {
+        // Quand on clique sur le cadre noir, on affiche la vidéo
+        document.getElementById("cadre-noir").addEventListener("click", function() {
             document.getElementById("video-container").style.display = "block";
         });
     </script>
