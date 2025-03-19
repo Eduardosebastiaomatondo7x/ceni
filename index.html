@@ -1,19 +1,26 @@
 <html>
-
-  <head>
+<head>
     <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
-  </head>
-  
+</head>
+
 <body>
-<a-scene>
-  <a-box id="plafond" scale="8.2836 0.37675 28.58833" position="9.73204 2.70159 0.67321" rotation="0 90 0"></a-box>
-  <a-sky src="./plage.jpg"></a-sky>
-  <a-entity id="salle" obj-model="obj: ./objet/313v3.obj; mtl: ./objet/313v3.mtl" position="-4.41574 -0.00048 -5.06616" scale="0.01 0.01 0.01"></a-entity>
-  <a-entity id="lapin" obj-model="mtl: ./objet/rabbit/rabbit.mtl; obj: ./objet/rabbit/rabbit.obj" position="-1.56655 0.30294 3.45654" scale="0.02 0.02 0.02" rotation="0 53.21116339159469 0"></a-entity>
-  <a-entity id="Chien" obj-model="mtl: ./objet/dog/dog.mtl; obj: ./objet/dog/dog.obj" position="-1.182 0.183 1.23135" scale="-0.01 0.01 0.01" rotation="-0.09 54.58116 -0.02"></a-entity>
-   <a-entity id="starwards" obj-model="mtl: ./objet/starwards/BB-8/BB-8.mtl; obj: ./objet/starwards/BB-8/BB-8.obj" position="-1.58365 0.32095 1.9447" scale="-0.01 0.01 0.01" rotation="-0.09 54.58116 -0.02"></a-entity>
-</a-scene>
-  <style>
+    <a-scene>
+        <a-box id="plafond" scale="8.2836 0.37675 28.58833" position="9.73204 2.70159 0.67321" rotation="0 90 0"></a-box>
+        <a-sky src="./plage.jpg"></a-sky>
+        
+        <!-- Objetos 3D -->
+        <a-entity id="salle" obj-model="obj: ./objet/313v3.obj; mtl: ./objet/313v3.mtl" position="-4.41574 -0.00048 -5.06616" scale="0.01 0.01 0.01"></a-entity>
+        <a-entity id="lapin" obj-model="mtl: ./objet/rabbit/rabbit.mtl; obj: ./objet/rabbit/rabbit.obj" position="-1.56655 0.30294 3.45654" scale="0.02 0.02 0.02" rotation="0 53.211 0"></a-entity>
+        <a-entity id="chien" obj-model="mtl: ./objet/dog/dog.mtl; obj: ./objet/dog/dog.obj" position="-1.182 0.183 1.23135" scale="-0.01 0.01 0.01" rotation="-0.09 54.58 -0.02"></a-entity>
+        <a-entity id="starwars" obj-model="mtl: ./objet/starwars/BB-8/BB-8.mtl; obj: ./objet/starwars/BB-8/BB-8.obj" position="-1.58365 0.32095 1.9447" scale="-0.01 0.01 0.01" rotation="-0.09 54.58 -0.02"></a-entity>
+        
+        <!-- Evento de clique no cachorro -->
+        <a-entity id="chien-clickable" geometry="primitive: sphere; radius: 0.3" position="-1.182 0.5 1.23135" material="transparent: true; opacity: 0" 
+            event-set__click="_event: click; _target: #video-container; visible: true"></a-entity>
+    </a-scene>
+
+    <!-- Estilização -->
+    <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -33,102 +40,20 @@
             width: 560px;
             height: 315px;
         }
-
-        canvas {
-            display: block;
-        }
     </style>
-</head>
-<body>
 
-<!-- Conteneur pour afficher la vidéo -->
-<div id="video-container">
-    <iframe id="video" src="https://youtu.be/xuP4g7IDgDM?feature=shared="0" allowfullscreen></iframe>
-</div>
+    <!-- Contêiner para exibir o vídeo -->
+    <div id="video-container">
+        <iframe id="video" src="https://www.youtube.com/embed/xuP4g7IDgDM" allowfullscreen></iframe>
+    </div>
 
-<!-- Conteneur pour le rendu de l'objet 3D -->
-<canvas id="webgl-canvas"></canvas>
-
-<!-- Three.js et autres scripts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/loaders/OBJLoader.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/loaders/MTLLoader.js"></script>
-
-<script>
-    let scene, camera, renderer, model;
-    let videoContainer = document.getElementById('video-container');
-    let mouse = new THREE.Vector2();
-    let raycaster = new THREE.Raycaster();
-
-    // Initialisation de la scène, caméra, et du renderer
-    scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('webgl-canvas') });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
-
-    // Charger le modèle OBJ avec son fichier MTL
-    let mtlLoader = new THREE.MTLLoader();
-    mtlLoader.load('dog/dog.mtl', function(materials) {
-        materials.preload();
-
-        let objLoader = new THREE.OBJLoader();
-        objLoader.setMaterials(materials);
-        objLoader.load('dog/dog.obj', function(obj) {
-            model = obj;
-            scene.add(model);
-            model.position.set(0, -1, 0); // Positionne le modèle dans la scène
-            model.scale.set(0.5, 0.5, 0.5); // Ajuste la taille du modèle
+    <!-- Script para ativar o vídeo ao clicar no cachorro -->
+    <script>
+        document.getElementById("chien-clickable").addEventListener("click", function() {
+            document.getElementById("video-container").style.display = "block";
         });
-    });
+    </script>
 
-    // Ajouter une lumière à la scène
-    let light = new THREE.PointLight(0xFFFFFF, 1, 100);
-    light.position.set(10, 10, 10);
-    scene.add(light);
-
-    // Position de la caméra
-    camera.position.z = 5;
-
-    // Fonction pour animer la scène
-    function animate() {
-        requestAnimationFrame(animate);
-
-        if (model) {
-            // Rotation de l'objet 3D pour le rendre interactif
-            model.rotation.y += 0.01;
-        }
-
-        renderer.render(scene, camera);
-    }
-
-    animate();
-
-    // Fonction pour détecter le clic sur le modèle 3D
-    window.addEventListener('click', onClick, false);
-
-    function onClick(event) {
-        // Calculer la position du clic dans la scène 3D
-        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-        // Mettre à jour le raycaster
-        raycaster.update();
-
-        // Vérifier si l'objet 3D a été cliqué
-        let intersects = getIntersects(event);
-
-        if (intersects.length > 0) {
-            // Si l'objet 3D a été cliqué, afficher la vidéo
-            videoContainer.style.display = 'block';
-        }
-    }
-
-    // Fonction pour vérifier si un objet a été cliqué
-    function getIntersects(event) {
-        raycaster.update();
-        return raycaster.intersectObject(model);
-    }
-</script>
 </body>
 </html>
+
