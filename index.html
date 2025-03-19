@@ -13,51 +13,110 @@
   <a-entity id="Chien" obj-model="mtl: ./objet/dog/dog.mtl; obj: ./objet/dog/dog.obj" position="-1.182 0.183 1.23135" scale="-0.01 0.01 0.01" rotation="-0.09 54.58116 -0.02"></a-entity>
    <a-entity id="starwards" obj-model="mtl: ./objet/starwards/BB-8/BB-8.mtl; obj: ./objet/starwards/BB-8/BB-8.obj" position="-1.58365 0.32095 1.9447" scale="-0.01 0.01 0.01" rotation="-0.09 54.58116 -0.02"></a-entity>
 </a-scene>
-  <style>
   body {
             font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 50px;
-        }
-
-        #clickable-object {
-            cursor: pointer;
-            margin-bottom: 20px;
+            margin: 0;
+            overflow: hidden;
         }
 
         #video-container {
-            display: none; /* Vidéo cachée par défaut */
-            margin-top: 20px;
+            display: none;
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        iframe {
+            width: 560px;
+            height: 315px;
         }
     </style>
 </head>
 <body>
 
-    <!-- L'objet cliquable (ici une image) -->
-    <div id="clickable-object">
-        <img src="https://i.pinimg.com/736x/24/8c/ce/248ccec6b52373a4f0e7459d09c65118.jpg" alt="Cliquez pour voir la vidéo" style="width: 200px; cursor: pointer;">
-        <p>Cliquez sur l'image pour voir la vidéo !</p>
-    </div>
+<!-- Conteneur pour afficher la vidéo -->
+<div id="video-container">
+    <iframe id="video" src="https://youtube.com/shorts/ZEHtlGKWpBY?feature=shared"></iframe>
+</div>
 
-    <!-- Section contenant la vidéo, cachée par défaut -->
-    <div id="video-container">
-        <!-- Vidéo YouTube intégrée dans un iframe -->
-        <iframe width="560" height="315" src="https://youtube.com/shorts/8BrhvQ56Bz8?feature=shared="0" allowfullscreen></iframe>
-    </div>
+<!-- Conteneur pour le rendu de l'objet 3D -->
+<canvas id="webgl-canvas"></canvas>
 
-    <!-- JavaScript -->
-    <script>
-        // Sélectionne l'élément cliquable
-        const clickableObject = document.getElementById('clickable-object');
+<!-- Three.js et autres scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/loaders/GLTFLoader.js"></script>
 
-        // Sélectionne la section où la vidéo sera affichée
-        const videoContainer = document.getElementById('video-container');
+<script>
+    let scene, camera, renderer, model;
+    let videoContainer = document.getElementById('video-container');
 
-        // Ajoute un écouteur d'événements pour le clic
-        clickableObject.addEventListener('click', function() {
-            // Affiche 
+    // Initialisation de la scène, caméra, et du renderer
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('webgl-canvas') });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Chargement du modèle 3D (remplace le chemin par le chemin de ton modèle)
+    let loader = new THREE.GLTFLoader();
+    loader.load(' id="Chien" obj-model="mtl: ./objet/dog/dog.mtl; obj: ./objet/dog/dog.obj" position="-1.182 0.183 1.23135" scale="-0.01 0.01 0.01" rotation="-0.09 54.58116 -0.02', function(gltf) {
+        model = gltf.scene;
+        scene.add(model);
+        model.position.set(0, -1, 0); // Positionne le modèle dans la scène
+    }, undefined, function(error) {
+        console.error(error);
+    });
+
+    // Ajouter une lumière à la scène
+    let light = new THREE.PointLight(0xFFFFFF, 1, 100);
+    light.position.set(10, 10, 10);
+    scene.add(light);
+
+    // Position de la caméra
+    camera.position.z = 5;
+
+    // Fonction pour animer la scène
+    function animate() {
+        requestAnimationFrame(animate);
+
+        if (model) {
+            // Rotation de l'objet 3D pour le rendre interactif
+            model.rotation.y += 0.01;
+        }
+
+        renderer.render(scene, camera);
+    }
+
+    animate();
+
+    // Fonction pour détecter le clic sur le modèle 3D
+    let raycaster = new THREE.Raycaster();
+    let mouse = new THREE.Vector2();
+
+    // Événement de clic
+    window.addEventListener('click', function(event) {
+        // Calculer la position du clic dans la scène 3D
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+        // Mettre à jour le raycaster
+        raycaster.update();
+
+        // Vérifier si le modèle a été cliqué
+        let intersects = getIntersects(event);
+
+        if (intersects.length > 0) {
+            // Si l'objet 3D a été cliqué, afficher la vidéo
             videoContainer.style.display = 'block';
-        });
-    </script>
+        }
+    });
+
+    // Fonction pour vérifier si un objet a été cliqué
+    function getIntersects(event) {
+        raycaster.update();
+        return raycaster.intersectObject(model);
+    }
 </body>
 </html>
