@@ -23,12 +23,30 @@
             background: rgba(0, 0, 0, 0.8);
             padding: 20px;
             border-radius: 10px;
+            width: 600px; /* Largeur ajustée pour la vidéo */
         }
 
         iframe {
-            width: 560px;
+            width: 100%;
             height: 315px;
         }
+
+        /* Animation d'affichage de la vidéo */
+        #video-container.show {
+            display: block;
+            animation: fadeIn 1s ease-out;
+        }
+
+        /* Animation de fondu de la vidéo */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -55,8 +73,7 @@
                   position="-1.58365 0.32095 1.9447" scale="-0.01 0.01 0.01" rotation="-0.09 54.58116 -0.02"></a-entity>
 
         <!-- Cadre noir interactif -->
-       
-<a-entity id="cadre-clickable" position="11.87588 1.82566 -0.65356" rotation="-0.01 4.820000000000001 -0.37" scale="1 1.07 0.84">
+        <a-entity id="cadre-clickable" position="11.87588 1.82566 -0.65356" rotation="-0.01 4.820000000000001 -0.37" scale="1 1.07 0.84">
             <a-plane id="cadre-noir" width="1" height="0.5" color="black" material="shader: flat"></a-plane>
             <a-text value="CLIQUEZ ICI" align="center" color="white" position="0 0 0.01" width="1.5"></a-text>
         </a-entity>
@@ -65,13 +82,14 @@
 
     <!-- Conteneur vidéo (par défaut caché) -->
     <div id="video-container">
-        <iframe id="video" src="https://www.youtube.com/embed/xuP4g7IDgDM" allowfullscreen></iframe>
+        <iframe id="video" src="https://www.youtube.com/embed/xuP4g7IDgDM?rel=0" allowfullscreen></iframe>
     </div>
 
     <script>
-        // Quand on clique sur le cadre noir, on affiche la vidéo
+        // Quand on clique sur le cadre noir, on affiche la vidéo avec animation
         document.getElementById("cadre-noir").addEventListener("click", function() {
-            document.getElementById("video-container").style.display = "block";
+            var videoContainer = document.getElementById("video-container");
+            videoContainer.classList.add("show"); // Ajout de l'animation d'affichage
         });
     </script>
 
