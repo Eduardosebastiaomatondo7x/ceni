@@ -79,11 +79,19 @@
         </a-entity>
         
     </a-scene>
+<a-scene>
+  <a-assets>
+    <video id="penguin-sledding" autoplay loop="true" src="penguin-sledding.mp4"></video>
+  </a-assets>
 
-    <!-- Conteneur vidéo (par défaut caché) -->
-    <div id="video-container">
-        <iframe id="video" src="https://www.youtube.com/embed/xuP4g7IDgDM?rel=0" allowfullscreen></iframe>
-    </div>
+  <!-- Using the asset management system. -->
+  <a-video src="#penguin-sledding" width="16" height="9" position="0 0 -20"></a-video>
+
+  <!-- Defining the URL inline. Not recommended but more comfortable for web developers. -->
+  <a-video src="https://www.youtube.com/embed/xuP4g7IDgDM?rel=0"></a-video>
+</a-scene>
+    
+    
 
     <script>
         // Quand on clique sur le cadre noir, on affiche la vidéo avec animation
